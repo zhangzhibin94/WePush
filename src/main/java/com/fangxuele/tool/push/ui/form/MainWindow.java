@@ -2,6 +2,7 @@ package com.fangxuele.tool.push.ui.form;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -30,6 +31,10 @@ public class MainWindow {
     private JPanel messageEditPanel;
     private JPanel messageManagePanel;
     private JPanel messageTypePanel;
+    private JPanel titlePanel;
+    private JLabel windowsCloseLabel;
+    private JLabel windowsMaxLabel;
+    private JLabel windowsMinLabel;
 
     public static MainWindow mainWindow = new MainWindow();
 
@@ -64,12 +69,14 @@ public class MainWindow {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(1, 1, new Insets(8, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         tabbedPane = new JTabbedPane();
         tabbedPane.setDoubleBuffered(true);
         Font tabbedPaneFont = this.$$$getFont$$$(null, -1, -1, tabbedPane.getFont());
         if (tabbedPaneFont != null) tabbedPane.setFont(tabbedPaneFont);
-        mainPanel.add(tabbedPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        tabbedPane.setTabLayoutPolicy(1);
+        tabbedPane.setTabPlacement(1);
+        mainPanel.add(tabbedPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(200, 200), null, 0, false));
         aboutPanel = new JPanel();
         aboutPanel.setLayout(new GridLayoutManager(1, 1, new Insets(10, 10, 10, 10), -1, -1));
         tabbedPane.addTab("关于", aboutPanel);
@@ -114,6 +121,20 @@ public class MainWindow {
         userCasePanel = new JPanel();
         userCasePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 10, 0), -1, -1));
         tabbedPane.addTab("他们都在用", userCasePanel);
+        titlePanel = new JPanel();
+        titlePanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.add(titlePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, true));
+        windowsCloseLabel = new JLabel();
+        windowsCloseLabel.setText("关闭");
+        titlePanel.add(windowsCloseLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        titlePanel.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        windowsMaxLabel = new JLabel();
+        windowsMaxLabel.setText("最大化");
+        titlePanel.add(windowsMaxLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        windowsMinLabel = new JLabel();
+        windowsMinLabel.setText("最小化");
+        titlePanel.add(windowsMinLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
