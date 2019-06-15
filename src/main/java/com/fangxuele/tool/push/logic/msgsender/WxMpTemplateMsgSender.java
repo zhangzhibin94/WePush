@@ -8,6 +8,14 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.concurrent.FutureCallback;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * <pre>
@@ -35,7 +43,41 @@ public class WxMpTemplateMsgSender implements IMsgSender {
             String openId = msgData[0];
             WxMpTemplateMessage wxMessageTemplate = wxMpTemplateMsgMaker.makeMsg(msgData);
             wxMessageTemplate.setToUser(openId);
-            wxMpService.getTemplateMsgService().sendTemplateMsg(wxMessageTemplate);
+//            wxMpService.getTemplateMsgService().sendTemplateMsg(wxMessageTemplate);
+
+            String uri = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + wxMpService.getAccessToken();
+//            YunpianClient yunpianClient = new YunpianClient().init();
+//            Future<HttpResponse> future = yunpianClient.post(uri, wxMessageTemplate.toJson());
+//            HttpResponse response1 = future.get();
+//            System.err.println(response1);
+
+            final CountDownLatch latch1 = new CountDownLatch(1);
+            final HttpPost request2 = new HttpPost(uri);
+            request2.setEntity(new StringEntity(wxMessageTemplate.toJson()));
+            CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
+            httpclient.start();
+            httpclient.execute(request2, new FutureCallback<HttpResponse>() {
+
+                @Override
+                public void completed(final HttpResponse response2) {
+                    latch1.countDown();
+                    System.err.println(request2.getRequestLine() + "->" + response2.getStatusLine());
+                }
+
+                @Override
+                public void failed(final Exception ex) {
+                    latch1.countDown();
+                    System.err.println(request2.getRequestLine() + "->" + ex);
+                }
+
+                @Override
+                public void cancelled() {
+                    latch1.countDown();
+                    System.err.println(request2.getRequestLine() + " cancelled");
+                }
+
+            });
+            latch1.await();
         } catch (Exception e) {
             sendResult.setSuccess(false);
             sendResult.setInfo(e.toString());
