@@ -38,6 +38,7 @@
         <lombok.version>1.18.8</lombok.version>
         <mybatis.version>3.5.1</mybatis.version>
         <sqlite-jdbc.version>3.27.2.1</sqlite-jdbc.version>
+        <httpasyncclient.version>4.1.4</httpasyncclient.version>
     </properties>
 
     <dependencies>
@@ -260,6 +261,12 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>${sqlite-jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>${httpasyncclient.version}</version>
+        </dependency>
+
 
     </dependencies>
 
